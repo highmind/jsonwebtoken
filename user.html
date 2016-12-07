@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="wap-font-scale" content="no">
+    <meta name="format-detection" content="telephone=no"/>
+    <style>
+    #tip1{display: none;}
+    </style>
+</head>
+<body>
+<p id="tip1">您无权访问，请登陆</p>
+<p id="tip2"></p>
+<script type="text/javascript" src="node_modules/axios/dist/axios.js"></script> 
+<script type="text/javascript">
+// 该页面为登陆以后的页面，进入页面时，进行token和权限验证
+  var token = localStorage.getItem('token');
+  console.log(token)
+  axios.post('http://localhost:3000/get/userinfo', {
+   'token': token
+  })
+  .then(function (res) {
+    if(res.data.success == 1){
+      console.log('权限验证成功');
+      console.log(res.data.username);
+      document.getElementById('tip2').innerHTML = res.data.username;
+    }
+    else{
+      console.log('权限验证失败');
+      document.getElementById('tip1').style.display = 'block'
+
+    }
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+</script> 
+</body>
+</html>
